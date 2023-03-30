@@ -1,0 +1,67 @@
+{
+  "name": "@aicombinator/bot",
+  "version": "0.4.0",
+  "type": "module",
+  "description": "Automate complex online tasks using GPT-4 and puppeteer scripts",
+  "main": "index.js",
+  "bin": {
+    "bot": "cli.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aicombinator/bot.git"
+  },
+  "keywords": [
+    "puppeteer"
+  ],
+  "author": "Nilesh Trivedi",
+  "license": "AGPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/aicombinator/bot/issues"
+  },
+  "homepage": "https://github.com/aicombinator/bot#readme",
+  "dependencies": {
+    "@activepieces/piece-airtable": "^0.2.0",
+    "@activepieces/piece-asana": "^0.2.0",
+    "@activepieces/piece-bannerbear": "^0.2.0",
+    "@activepieces/piece-binance": "^0.2.0",
+    "@activepieces/piece-blackbaud": "^0.2.0",
+    "@activepieces/piece-clickup": "^0.2.0",
+    "@activepieces/piece-discord": "^0.2.0",
+    "@activepieces/piece-drip": "^0.2.0",
+    "@activepieces/piece-dropbox": "^0.2.0",
+    "@activepieces/piece-figma": "^0.2.0",
+    "@activepieces/piece-gmail": "^0.2.0",
+    "@activepieces/piece-google-calendar": "^0.2.0",
+    "@activepieces/piece-google-contacts": "^0.2.0",
+    "@activepieces/piece-google-drive": "^0.2.0",
+    "@activepieces/piece-google-sheets": "^0.2.0",
+    "@activepieces/piece-google-tasks": "^0.2.0",
+    "@activepieces/piece-hackernews": "^0.2.0",
+    "@activepieces/piece-hubspot": "^0.2.0",
+    "@activepieces/piece-intercom": "^0.2.0",
+    "@activepieces/piece-mailchimp": "^0.2.0",
+    "@activepieces/piece-openai": "^0.2.0",
+    "@activepieces/piece-pipedrive": "^0.2.0",
+    "@activepieces/piece-posthog": "^0.2.0",
+    "@activepieces/piece-sendgrid": "^0.2.0",
+    "@activepieces/piece-slack": "^0.2.0",
+    "@activepieces/piece-square": "^0.2.0",
+    "@activepieces/piece-stripe": "^0.2.0",
+    "@activepieces/piece-telegram-bot": "^0.2.0",
+    "@activepieces/piece-todoist": "^0.2.0",
+    "@activepieces/piece-trello": "^0.2.0",
+    "@activepieces/piece-twilio": "^0.2.0",
+    "@activepieces/piece-typeform": "^0.2.0",
+    "@activepieces/piece-wordpress": "^0.2.0",
+    "@activepieces/piece-youtube": "^0.2.0",
+    "@activepieces/piece-zoom": "^0.2.0",
+    "@supabase/supabase-js": "^2.10.0",
+    "puppeteer": "^19.7.2",
+    "puppeteer-extra": "^3.3.6",
+    "totp-generator": "^0.0.14"
+  }
+}
