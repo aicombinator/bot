@@ -14,7 +14,7 @@ export async function pair_device(bot, params){
 
 	// Here, user needs to perform manual device pairing by scanning the QR code on their Google Messages app
 	console.log("Waiting for user to scan the QR code on their Google Messages mobile app")
-	await bot.wait(30);
+	await bot.wait(15);
 	console.log("Proceeding...");
 	await page.close();
 }

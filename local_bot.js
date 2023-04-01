@@ -1,5 +1,6 @@
 import {Bot} from './bot.js';
-import { promises as fs } from 'fs';
+import fs from 'fs';
+import path from 'path';
 
 // Local bot uses in-memory data store. Will use file-based data store in future.
 // It can keep 2FA keys for TOTPs, but does not have access to a server (for inbound email/SMS or webhooks).
@@ -27,7 +28,7 @@ export class LocalBot extends Bot {
 		let bot = new LocalBot(bot_id, data_dir);
 		bot.headless = headless;
 
-		bot.storage = await loadJSONFile(`${data_dir}/${bot_id}.json`);
+		bot.storage = await loadJSONFile(data_dir, `${bot_id}.json`);
 		// console.log("storage", bot.storage);
 
 		return bot;
@@ -41,7 +42,7 @@ export class LocalBot extends Bot {
 
 	async set(key, value){
 		this.storage[key] = value;
-		await saveObjectToFile(this.storage, `${this.data_dir}/${this.bot_id}.json`);
+		await saveObjectToFile(this.storage, this.data_dir, `${this.bot_id}.json`);
 	}
 
 	async get_latest_inbound_email(){
@@ -68,30 +69,39 @@ export class LocalBot extends Bot {
 	}
 }
 
-async function loadJSONFile(path) {
+function readOrCreateFileWithDefaultContent(filepath, defaultContent) {
 	try {
-	  const data = await fs.readFile(path, 'utf-8');
-	  const jsonObj = JSON.parse(data);
-	  return jsonObj;
+	  // Try to read the file
+	  const content = fs.readFileSync(filepath, 'utf-8');
+	  return content;
 	} catch (err) {
-	  console.error('Error reading JSON file:', err);
-	  return {};
+	  if (err.code === 'ENOENT') {
+		// File does not exist, create the directory if it does not exist
+		const dir = path.dirname(filepath);
+		if (!fs.existsSync(dir)) {
+		  fs.mkdirSync(dir, { recursive: true });
+		}
+  
+		// Create the file with default content
+		fs.writeFileSync(filepath, defaultContent, 'utf-8');
+		return defaultContent;
+	  } else {
+		// File exists but there was an error reading it
+		throw err;
+	  }
 	}
 }
 
-async function saveObjectToFile(obj, filePath) {
-	try {
-		const jsonString = JSON.stringify(obj, null, 2);
-		let sp = filePath.split("/");
-		let dir = sp.slice(0, sp.length - 1).join("/");
+function loadJSONFile(directoryPath, filename) {
+	let fullPath = path.join(directoryPath, filename);
+	let content = readOrCreateFileWithDefaultContent(fullPath, '{}');
+	const jsonObj = JSON.parse(content);
+	return jsonObj;
+}
 
-		await fs.mkdir(dir, {recursive: true});
-		await fs.writeFile(filePath, jsonString, {
-			encoding: "utf8",
-			flag: "w"
-		});
-	} catch (error) {
-		console.error(`Error saving data to ${filePath}: ${error}`);
-	}
-
+async function saveObjectToFile(obj, directoryPath, filename) {
+	const jsonString = JSON.stringify(obj, null, 2);
+	let fullPath = path.join(directoryPath, filename);
+	readOrCreateFileWithDefaultContent(fullPath, '{}');
+	fs.writeFileSync(fullPath, jsonString, 'utf8');
 }

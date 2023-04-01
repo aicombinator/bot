@@ -3,6 +3,7 @@
 import puppeteer from 'puppeteer-extra';
 import * as aicombinator from './recipes.js';
 import totp from 'totp-generator';
+import inquirer from 'inquirer';
 
 export class Bot {
 
@@ -65,10 +66,18 @@ export class Bot {
 		let code = await this.parse_command(cmd);
 		let eval_code = `(async () => {\n${code}\n})()`;
 		
-		console.log("\n\nRunning the following code:\n");
+		console.log("\n\nWill run the following code:\n");
 		console.log(eval_code);
 		console.log("\n\n")
-		
+
+		const answer = await inquirer.prompt({
+			type: 'confirm',
+			name: 'confirmed',
+			message: 'Proceed?'
+		});
+
+		if(!answer.confirmed) return;
+
 		let bot = this;
 		if(eval_code.includes("aicombinator.twitter") || eval_code.includes("aicombinator.google_sms") || eval_code.includes("aicombinator.github")){
 			// task requires a browser. initialize puppeteer.
@@ -99,14 +108,13 @@ aicombinator.google_sms.pair_device(bot, {})
 aicombinator.twitter.login(bot, {twitter_username: "user", twitter_password: "password"})
 aicombinator.twitter.post(bot, {message: "test"})
 aicombinator.github.login(bot, {})
-aicombinator.zoom.create_meeting(bot, {})
-aicombinator.airtable.create_record(bot, {})
-aicombinator.asana.create_task(bot, {})
-aicombinator.bannerbear.create_image(bot, {})
-aicombinator.binance.fetch_crypto_pair_price(bot, {})
-aicombinator.blackbaud.create_contact_batch(bot, {})
+aicombinator.airtable.create_record(bot, {fields: {fieldName: "fieldValue"}})
+aicombinator.asana.create_task(bot, {name: "name of the task", notes: "free-form notes"})
+aicombinator.bannerbear.create_image(bot, {templates: "template_id", modifications: [{name: "message", text: "text on image"},{name: "face", image_url: "https://example.com/image_to_be_inserted.png"}]})
+aicombinator.binance.fetch_crypto_pair_price(bot, {first_coin: "BTC", second_coin: "USDT"})
+aicombinator.blackbaud.create_contact_batch(bot, {email: {address: "contact@example.com"}})
 aicombinator.blackbaud.search_contacts_after_date(bot, {})
-aicombinator.blackbaud.create_contact_if_not_exists(bot, {})
+aicombinator.blackbaud.create_contact_if_not_exists(bot, {email: {address: "contact@example.com"}})
 aicombinator.blackbaud.update_contact(bot, {})
 aicombinator.clickup.create_task(bot, {})
 aicombinator.clickup.create_folderless_list(bot, {})
@@ -116,7 +124,7 @@ aicombinator.clickup.get_spaces(bot, {})
 aicombinator.clickup.get_task_comments(bot, {})
 aicombinator.clickup.create_task_comments(bot, {})
 aicombinator.clickup.create_subtask(bot, {})
-aicombinator.discord.send_message_webhook(bot, {})
+aicombinator.discord.send_message_webhook(bot, {webhook_url, content: "Long-form text of the message"})
 aicombinator.drip.apply_tag_to_subscriber(bot, {})
 aicombinator.drip.add_subscriber_to_campaign(bot, {})
 aicombinator.drip.upsert_subscriber(bot, {})
@@ -125,17 +133,17 @@ aicombinator.dropbox.create_new_text_file(bot, {})
 aicombinator.figma.get_file(bot, {})
 aicombinator.figma.get_comments(bot, {})
 aicombinator.figma.post_comment(bot, {})
-aicombinator.gmail.send_email(bot, {})
+aicombinator.gmail.send_email(bot, {receiver, subject, body_text})
 aicombinator.gmail.get_mail(bot, {})
-aicombinator.gmail.search_mail(bot, {})
+aicombinator.gmail.search_mail(bot, {subject, from, to, label, category})
 aicombinator.gmail.get_thread(bot, {})
-aicombinator.googleCalendar.create_quick_event(bot, {})
+aicombinator.googleCalendar.create_quick_event(bot, {text: "The text describing the event to be created"})
 aicombinator.googleContacts.add_contact(bot, {})
 aicombinator.googleDrive.create_new_gdrive_folder(bot, {})
 aicombinator.googleDrive.create_new_gdrive_file(bot, {})
 aicombinator.googleSheets.insert_row(bot, {})
 aicombinator.googleTasks.add_task(bot, {})
-aicombinator.hackernews.fetch_top_stories(bot, {number_of_stories})
+aicombinator.hackernews.fetch_top_stories(bot, {number_of_stories: 1})
 aicombinator.hubspot.create_contact(bot, {})
 aicombinator.hubspot.create_or_update_contact(bot, {})
 aicombinator.hubspot.add_contact_to_list(bot, {})
@@ -159,12 +167,16 @@ aicombinator.wordpress.create_post(bot, {})
 aicombinator.zoom.create_meeting(bot, {})
 aicombinator.zoom.create_meeting_registrant(bot, {})
 
-// Example: post a message to twitter (login if necessary):
+// Example: post a message to twitter:
+// Don't need to call aicombinator.twitter.login() unless given explicit crendentials
 await aicombinator.twitter.post(bot, {message: 'hello'});
 
 // some tasks may return useful results which should be printed:
 let result = await aicombinator.hackernews.fetch_top_stories(bot, {number_of_stories: 1});
 console.log({result});
+
+// To make the bot pause or wait for 5 seconds for the user to manually intervene:
+await bot.wait(5);
 
 // Now generate code for the following task:
 ${cmd}

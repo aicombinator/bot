@@ -19,12 +19,18 @@ import {CloudBot} from './cloud_bot.js';
 			'headless': {type: 'boolean', default: false},
 			'test': {type: 'boolean', default: false},
 			'list-apps': {type: 'boolean', default: false},
+			'version': {type: 'boolean', default: false}
 		},
 		allowPositionals: true
 	});
 
 	// Print arguments 
 	// console.log(values, {positionals});
+
+	if(values.version){
+		console.log('aicombinator version: 0.4.1')
+		return;
+	}
 	
 	let cmd = positionals[0];
 	

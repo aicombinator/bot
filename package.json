@@ -1,6 +1,6 @@
 {
   "name": "@aicombinator/bot",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "type": "module",
   "description": "Automate complex online tasks using GPT-4 and puppeteer scripts",
   "main": "index.js",
@@ -60,6 +60,7 @@
     "@activepieces/piece-youtube": "^0.2.0",
     "@activepieces/piece-zoom": "^0.2.0",
     "@supabase/supabase-js": "^2.10.0",
+    "inquirer": "^9.1.5",
     "puppeteer": "^19.7.2",
     "puppeteer-extra": "^3.3.6",
     "totp-generator": "^0.0.14"
