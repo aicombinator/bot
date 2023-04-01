@@ -1,3 +1,9 @@
+
+
+https://user-images.githubusercontent.com/19304/229276655-7dd8ba0f-1435-4388-a774-25934ca9fe4d.mp4
+
+
+
 This tool gives AI the 3 big things it's currently missing: Identity, Memory, and Agency. Essentially, it is a personal assistant bot that runs locally, understands tasks in natural language and with a human-reviewed library of composable tasks, can perform complex online tasks across multiple websites and webapps, by driving a browser on your local machine or call APIs when available.
 
 The tasks are described in natural language. For example: 
