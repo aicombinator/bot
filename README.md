@@ -1,4 +1,4 @@
-
+Announcement: [Fediverse](https://fosstodon.org/@nilesh/110134878566780260), [Twitter](https://twitter.com/nileshtrivedi/status/1642867968034873344), [Show HN](https://news.ycombinator.com/item?id=35422320)
 
 https://user-images.githubusercontent.com/19304/229281118-e143322a-1c6f-4464-9f69-9425454895f0.mp4
 
